@@ -16,17 +16,7 @@ public class Individual_${id} extends AdvancedRobot
 	static Point2D.Double lastPosition;
 	static Point2D.Double myPos;
 	static double myEnergy;
-	static Point2D.Double enemyFiredFrom = new Point2D.Double();
-	static double lastKnownBearing;
-	static double bestPoint;
-	static double eLastReversal;
-	static double direction = 1;	
-	static double power;
-	static double eGetDistance;
-	static double targetBearing;
-	static double eEnergy;
-	static double eLastVelocity; //absolute
-	static double eAcceleration; 
+
 	
 	static double debugSmallestEval = Double.POSITIVE_INFINITY;
 	static double debugLargestEval = Double.NEGATIVE_INFINITY;
