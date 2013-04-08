@@ -16,6 +16,20 @@ public class Individual_${id} extends AdvancedRobot
 	static Point2D.Double lastPosition;
 	static Point2D.Double myPos;
 	static double myEnergy;
+	static Point2D.Double enemyFiredFrom = new Point2D.Double();
+	static double lastKnownBearing;
+	static double bestPoint;
+	static double eLastReversal;
+	static double direction = 1;	
+	static double power;
+	static double eGetDistance;
+	static double targetBearing;
+	static double eEnergy;
+	static double eLastVelocity; //absolute
+	static double eAcceleration; 
+	
+	static double debugSmallestEval = Double.POSITIVE_INFINITY;
+	static double debugLargestEval = Double.NEGATIVE_INFINITY;
 	
 //- run -------------------------------------------------------------------------------------------------------------------------------------
 	public void run()
@@ -42,8 +56,10 @@ public class Individual_${id} extends AdvancedRobot
 			execute();
 			
 		} while(true);
-	}
-	
+}	
+//- scanner ----
+
+
 //- stuff -----------------------------------------------------------------------------------------------------------------------------------
 	public void doMovementAndGun() {
 		
@@ -52,10 +68,11 @@ public class Individual_${id} extends AdvancedRobot
 	//**** gun ******************//
 		// HeadOnTargeting there's nothing I can say about this
 		if(getGunTurnRemaining() == 0 && myEnergy > 1) {
-			setFire(3);
+			setFire( Math.min(Math.min(myEnergy/6d, 1300d/distanceToTarget), target.energy/3d) );
 		}
 		
 		setTurnGunRightRadians(Utils.normalRelativeAngle(calcAngle(target.pos, myPos) - getGunHeadingRadians()));
+		
 		
 	//**** move *****************//
 		double distanceToNextDestination = myPos.distance(nextDestination);
@@ -103,7 +120,7 @@ public class Individual_${id} extends AdvancedRobot
 	}
 	
 //- eval position ---------------------------------------------------------------------------------------------------------------------------
-	public static double evaluate(Point2D.Double p, double addLast) {
+	public double evaluate(Point2D.Double p, double addLast) {
 		// this is basically here that the bot uses more space on the battlefield. In melee it is dangerous to stay somewhere too long.
 		double eval = addLast*0.08/p.distanceSq(lastPosition);
 		
@@ -117,14 +134,19 @@ public class Individual_${id} extends AdvancedRobot
 			//		but this wasn't going to give me good results
 			// -	1 / p.distanceSq(en.pos) is just the normal anti gravity thing
 			if(en.live) {
-				eval += (${enemy_energy})*en.energy;
-				eval += (${my_energy})*myEnergy;
-				eval += (${angle_diff})*(calcAngle(myPos, p) - calcAngle(en.pos, p));
-				eval += (${distance})*p.distanceSq(en.pos);
+				eval += Math.min(en.energy/myEnergy,2) * 
+						(1 + Math.abs(Math.cos(calcAngle(myPos, p) - calcAngle(en.pos, p)))) / p.distanceSq(en.pos);
 			}
 		}
+		
+		if(eval<debugSmallestEval && eval!=Double.POSITIVE_INFINITY)
+			debugSmallestEval = eval;
+		if(eval>debugLargestEval && eval!=Double.POSITIVE_INFINITY)
+			debugLargestEval = eval;
+		
 		return eval;
 	}
+	
 	
 //- scan event ------------------------------------------------------------------------------------------------------------------------------
 	public void onScannedRobot(ScannedRobotEvent e)
