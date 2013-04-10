@@ -47,9 +47,6 @@ public class Individual_${id} extends AdvancedRobot
 			
 		} while(true);
 }	
-//- scanner ----
-
-
 //- stuff -----------------------------------------------------------------------------------------------------------------------------------
 	public void doMovementAndGun() {
 		

@@ -17,6 +17,7 @@ class TestHappyRobot extends Specification {
     def angle_diff
     def distance
     def robotBuilder
+    def battleRunner
 
     def setup() {
         Random random = new Random()
@@ -131,5 +132,17 @@ class TestHappyRobot extends Specification {
     
     def removePropertiesFile() {
         new File("evolved_robots/evolved/Individual_${id}.properties").delete()
+    }
+    
+    def "Check that we can run a battle and extract the scores"() {
+        given:
+        battleRunner = new BattleRunner("templates/battle.template")
+        battleRunner.buildBattleFile(id)
+
+        when:
+        def score = battleRunner.runBattle(id)
+
+        then:
+        score >= 0
     }
 }
