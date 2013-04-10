@@ -4,23 +4,35 @@ class GunPower {
     protected rand = new java.util.Random()
     Integer evalCount = 0
     Integer maxIterations = 1000
-    Double gunPower
+    Double gunPower = 1.0
+    def score = 0
 
+    def create() {
+        generateRandomPower(gunPower)
+    }
+    
+    def random() {
+        generateRandomPower(gunPower)
+    }
+    
+    def gunpower() {
+        gunPower
+    }
+    
     def tweak = {mutationRate = 1, randomPower = null ->
         randomPower = generateRandomPower(gunPower)
     }
 
     def generateRandomPower(Double gunPower) {
-        gunPower = (rand.nextInt(30)+1)/10
-        return gunPower
+        gunPower = (rand.nextInt(300)+1)/10
     }
 
     def terminate = { a, q = quality(a) ->
-        evalCount >= maxIterations || q == maximalQuality()
+        evalCount >= maxIterations
     }
     
     def quality() {
-        true
+        score
     }
 
     String toString() {

@@ -36,7 +36,7 @@ class TestHappyRobot extends Specification {
      */
     def "Confirm that we can create a Java source file for an individual"() {
         given:
-        def values = ["id" : id, "enemy_energy" : enemy_energy, "my_energy" : my_energy, "angle_diff" : angle_diff, "distance" : distance]
+        def values = ["id" : id, "gun_power": 1]
 
         when:
         robotBuilder.buildJavaFile(values)
@@ -55,7 +55,7 @@ class TestHappyRobot extends Specification {
      */
     def "Confirm that we can create a Java class file for an individual"() {
         given:
-        def values = ["id" : id, "enemy_energy" : enemy_energy, "my_energy" : my_energy, "angle_diff" : angle_diff, "distance" : distance]
+        def values = ["id" : id, "gun_power": 1]
 
         when:
         robotBuilder.buildClassFile(values)
@@ -76,7 +76,7 @@ class TestHappyRobot extends Specification {
      */
     def "Confirm that we can create a jar file for an individual"() {
         given:
-        def values = ["id" : id, "enemy_energy" : enemy_energy, "my_energy" : my_energy, "angle_diff" : angle_diff, "distance" : distance]
+        def values = ["id" : id, "gun_power": 1]
 
         when:
         robotBuilder.buildJarFile(values)

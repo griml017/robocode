@@ -1,15 +1,16 @@
 package singleStateMethods
 
 import problems.OnesMax
+import applications.robocode.BattleRunner
 import groovy.transform.ToString
 
 
 class SteepestAscentHillClimber {
 	Integer numGradientSamples = 1
-	
+    def battleRunner = new BattleRunner("templates/battle.template")
 	def maximize(problem) {
 		def s = problem.create()
-		def sQuality = problem.quality(s)
+		def sQuality = problem.quality(s, battleRunner)
 		
 		while (!problem.terminate(s, sQuality)) {
 			def bestSample
