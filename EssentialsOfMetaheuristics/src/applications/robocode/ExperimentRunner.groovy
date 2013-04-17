@@ -31,9 +31,10 @@ class ExperimentRunner {
             robotBuilder.buildJarFile(values)
             battleRunner.buildBattleFile(id)
             result = randomSearch.maximize(gunpower, battleRunner, robotBuilder, values)
-            print "This is the best gunpower for this round: " + result + " ---- with ID: " + values['id']
+            println "This is the best gunpower for this round: " + result + " ---- with ID: " + values['id']
             values = ["id": id, "gun_power": result]
             robotBuilder.buildJarFile(values)
+            
         }
     }
 }

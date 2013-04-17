@@ -46,7 +46,7 @@ class BattleRunner {
             }
         }
         if (result != false) {
-            println "This is the result: " + result
+            println result
             return result
         } else {
             throw new RuntimeException("Didn't find score for evolved robot")

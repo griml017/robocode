@@ -13,7 +13,7 @@ class GunPower {
     
     def random() {
         gunPower = generateRandomPower()
-        print "This is the gunpower: "+ gunPower + "- This might be the score...?: "
+        print "This is the gunpower: "+ gunPower + " The next line is the score..."
         gunPower
     }
     
