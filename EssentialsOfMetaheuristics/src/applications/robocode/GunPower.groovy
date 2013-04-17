@@ -3,16 +3,18 @@ package applications.robocode
 class GunPower {
     protected rand = new java.util.Random()
     Integer evalCount = 0
-    Integer maxIterations = 1000
-    Double gunPower = 1.0
+    Integer maxIterations = 10
+    def gunPower = 1.0
     def score = 0
 
     def create() {
-        generateRandomPower(gunPower)
+        gunPower = generateRandomPower()
     }
     
     def random() {
-        generateRandomPower(gunPower)
+        gunPower = generateRandomPower()
+        print "This is the gunpower: "+ gunPower + "- This might be the score...?: "
+        gunPower
     }
     
     def gunpower() {
@@ -20,11 +22,11 @@ class GunPower {
     }
     
     def tweak = {mutationRate = 1, randomPower = null ->
-        randomPower = generateRandomPower(gunPower)
+        randomPower = generateRandomPower()
     }
 
-    def generateRandomPower(Double gunPower) {
-        gunPower = (rand.nextInt(300)+1)/10
+    def generateRandomPower() {
+         (rand.nextInt(300)+1)/100
     }
 
     def terminate = { a, q = quality(a) ->

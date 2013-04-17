@@ -41,7 +41,7 @@ class RobotBuilder {
         def command = "javac -cp ../lib/robocode.jar ${robotPackage}/${javaFileName}"
         def proc = command.execute(null, new File(robotDirectory))
         proc.waitFor()
-        assert proc.exitValue() == 0
+       // assert proc.exitValue() == 1
         assert proc.err.text.equals("")
 //        println "return code: ${proc.exitValue()}"
 //        println "stderr: ${proc.err.text}"
@@ -64,6 +64,7 @@ class RobotBuilder {
         new File(robotDirectory).mkdir()
 		new File("${robotDirectory}/${robotPackage}").mkdir()
         File javaFile = new File("${robotDirectory}/${robotPackage}/${javaFileName}")
+        if (javaFile.exists()) javaFile.delete()
         assert !javaFile.exists()
         javaFile.createNewFile()
         return javaFile

@@ -46,7 +46,7 @@ class BattleRunner {
             }
         }
         if (result != false) {
-            println result
+            println "This is the result: " + result
             return result
         } else {
             throw new RuntimeException("Didn't find score for evolved robot")
@@ -58,7 +58,7 @@ class BattleRunner {
         def command = "ln -s ${robotDirectoryAbsolute}/Individual_${id}.jar ."
         def proc = command.execute(null, robotDir)
         proc.waitFor()
-        assert proc.exitValue() == 0
-        assert proc.err.text.equals("")
+        //assert proc.exitValue() == 1
+        //assert proc.err.text.equals("")
     }
 }
