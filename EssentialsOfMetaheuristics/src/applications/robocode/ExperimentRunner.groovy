@@ -14,7 +14,7 @@ import singleStateMethods.SteepestAscentHillClimber
 import singleStateMethods.SteepestAscentHillClimberWithReplacement
 
 class ExperimentRunner {
-
+//Targeting and stopping after a kill
     static main(args) {
         Random random = new Random()
         def id

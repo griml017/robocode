@@ -86,7 +86,11 @@ public class Individual_${id} extends AdvancedRobot
 		setTurnRadarRightRadians(
 		    Utils.normalRelativeAngle(absoluteBearing - getRadarHeadingRadians()));
 		setTurnGunRightRadians(Utils.normalRelativeAngle(theta - getGunHeadingRadians()));
-		setFire(bulletPower);
+		if (distanceToTarget < 50) {
+			setFire(3.0);
+		} else {
+			setFire(bulletPower);
+		}
 		
 	//**** move *****************//
 		double distanceToNextDestination = myPos.distance(nextDestination);
