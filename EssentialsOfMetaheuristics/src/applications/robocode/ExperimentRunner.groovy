@@ -27,12 +27,12 @@ class ExperimentRunner {
         def result
         for(int x=1; x<=numRuns; x++){
             id = random.nextInt(1000000)
-            def values = ["id" : id, "gun_power" : gunpower.gunpower()]
+            def values = ["id" : id, "gun_power" : gunpower.gunpower(), "randomNum": gunpower.randomNum]
             robotBuilder.buildJarFile(values)
             battleRunner.buildBattleFile(id)
             result = randomSearch.maximize(gunpower, battleRunner, robotBuilder, values)
-            println "This is the best gunpower for this round: " + result + " ---- with ID: " + values['id']
-            values = ["id": id, "gun_power": result]
+            println "This is the best evolve variables for this round: " + result + " ---- with ID: " + values['id']
+            values = ["id": id, "gun_power": result[0], "randomNum": result[1]]
             robotBuilder.buildJarFile(values)
             
         }

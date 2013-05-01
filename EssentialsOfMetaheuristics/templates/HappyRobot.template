@@ -25,7 +25,7 @@ public class Individual_${id} extends AdvancedRobot
 //- run -------------------------------------------------------------------------------------------------------------------------------------
 	public void run()
 	{
-		setColors(Color.blue,Color.red,Color.white);
+		setColors(Color.blue,Color.red,Color.white,Color.green,Color.yellow);
 		setAdjustGunForRobotTurn(true);
 		setAdjustRadarForGunTurn(true);
 		
@@ -53,7 +53,7 @@ public class Individual_${id} extends AdvancedRobot
 		
 		double distanceToTarget = myPos.distance(target.pos);
 		
-		double bulletPower =  Math.min(${gun_power},target.energy/3d);
+		double bulletPower =  Math.min(${gun_power},myEnergy/6d);
 		double myX = getX();
 		double myY = getY();
 		double enemyX = getX() + distanceToTarget * Math.sin(absoluteBearing);
@@ -68,14 +68,14 @@ public class Individual_${id} extends AdvancedRobot
 		      Point2D.Double.distance(myX, myY, predictedX, predictedY)){		
 			predictedX += Math.sin(enemyHeading) * enemyVelocity;	
 			predictedY += Math.cos(enemyHeading) * enemyVelocity;
-			if(	predictedX < 18.0 
-				|| predictedY < 18.0
-				|| predictedX > battleFieldWidth - 18.0
-				|| predictedY > battleFieldHeight - 18.0){
-				predictedX = Math.min(Math.max(18.0, predictedX), 
-		                    battleFieldWidth - 18.0);	
-				predictedY = Math.min(Math.max(18.0, predictedY), 
-		                    battleFieldHeight - 18.0);
+			if(	predictedX < ${randomNum} 
+				|| predictedY < ${randomNum} 
+				|| predictedX > battleFieldWidth - ${randomNum} 
+				|| predictedY > battleFieldHeight - ${randomNum} ){
+				predictedX = Math.min(Math.max(${randomNum} , predictedX), 
+		                    battleFieldWidth - ${randomNum} );	
+				predictedY = Math.min(Math.max(${randomNum} , predictedY), 
+		                    battleFieldHeight - ${randomNum} );
 				break;
 			}
 		}
@@ -83,10 +83,9 @@ public class Individual_${id} extends AdvancedRobot
 		double theta = Utils.normalAbsoluteAngle(Math.atan2(
 	    predictedX - getX(), predictedY - getY()));
 	 
-		setTurnRadarRightRadians(
-		    Utils.normalRelativeAngle(absoluteBearing - getRadarHeadingRadians()));
+		
 		setTurnGunRightRadians(Utils.normalRelativeAngle(theta - getGunHeadingRadians()));
-		if (distanceToTarget < 50) {
+		if (distanceToTarget < 150) {
 			setFire(3.0);
 		} else {
 			setFire(bulletPower);
@@ -169,7 +168,10 @@ public class Individual_${id} extends AdvancedRobot
 //- scan event ------------------------------------------------------------------------------------------------------------------------------
 	public void onScannedRobot(ScannedRobotEvent e)
 	{
-	
+		enemyHeading = e.getHeadingRadians();
+		enemyVelocity = e.getVelocity();
+		absoluteBearing = getHeadingRadians() + e.getBearingRadians();
+		
 		MicroEnemy en = enemies.get(e.getName());
 		
 		if(en == null){
@@ -180,10 +182,6 @@ public class Individual_${id} extends AdvancedRobot
 		en.energy = e.getEnergy();
 		en.live = true;
 		en.pos = calcPoint(myPos, e.getDistance(), getHeadingRadians() + e.getBearingRadians());
-		
-		enemyHeading = e.getHeadingRadians();
-		enemyVelocity = e.getVelocity();
-		absoluteBearing = getHeadingRadians() + e.getBearingRadians();
 		
 		// normal target selection: the one closer to you is the most dangerous so attack him
 		if(!target.live || e.getDistance() < myPos.distance(target.pos)) {

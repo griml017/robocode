@@ -5,15 +5,18 @@ class GunPower {
     Integer evalCount = 0
     Integer maxIterations = 10
     def gunPower = 1.0
+    def randomNum = 18.0
     def score = 0
 
     def create() {
         gunPower = generateRandomPower()
+        randomNum = (rand.nextInt(1000)+1)/10
     }
     
     def random() {
         gunPower = generateRandomPower()
-        print "This is the gunpower: "+ gunPower + " The next line is the score..."
+        randomNum = (rand.nextInt(1000)+1)/10
+        print "This is the gunpower: "+ gunPower + "  and this is the randNum: " + randomNum + "  --"
         gunPower
     }
     
